@@ -15,4 +15,4 @@
   - name: Reload service httpd, in all cases
     ansible.builtin.systemd:
        name: zabbix-agent2
-       state: reloaded
+       state: restarted
