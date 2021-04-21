@@ -6,3 +6,12 @@
  
   - name: Hello World!
     shell: echo "Hi! Tower is working."
+
+  - name: "Cahnge Config"
+    lineinfile:
+       backup: yes
+       path: /etc/zabbix/zabbix_agent2.conf
+       state: present
+       regexp: '^Server='
+       line: 'Server=10.9.0.80,10.9.0.81,10.9.0.82'
+       validate: 'systemctl restart zabbix-agent2'
