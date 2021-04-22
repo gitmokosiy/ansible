@@ -5,7 +5,7 @@
   vars:
     # created with:
     # python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'
-    password: $1$SomeSalt$H0pXyARhEEgYOLPQHYdho.
+    password: $1$SomeSalt$SIMhbMGUV.4YdrZIVQm4s/
 
   tasks:
     - user: name=test password={{password}}
