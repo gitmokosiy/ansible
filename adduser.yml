@@ -8,5 +8,9 @@
     password: $1$SomeSalt$SIMhbMGUV.4YdrZIVQm4s/
 
   tasks:
-    - user: name=test password={{password}}
+    - name: Creating user with admin access
+      user: 
+        name=test 
+        password={{password}}
+        groups: wheel append=yes
 
