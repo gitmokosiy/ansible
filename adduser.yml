@@ -12,5 +12,6 @@
       user: 
         name=test 
         password={{password}}
-        groups: wheel 
+        groups: wheel
+        append: yes
 
