@@ -17,7 +17,7 @@
   - name: "Change zabbix-agent Config"
     lineinfile:
        backup: yes
-       path: /etc/zabbix/zabbix_agent.conf
+       path: /etc/zabbix/zabbix_agentd.conf
        state: present
        regexp: '^Server='
        line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
