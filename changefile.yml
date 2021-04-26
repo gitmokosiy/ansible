@@ -13,6 +13,18 @@
        line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
     register: zbxconfig
 
+  - name: Reload Systemd service zabbix-agent
+    ansible.builtin.systemd:
+       name: zabbix-agent
+       state: restarted
+    when: zbxconfig.changed and ansible_distribution_version >= '7'
+
+  - name: Reload SysV service zabbix-agent
+    sysvinit:
+       name: zabbix-agent
+       state: restarted
+    when: zbxconfig.changed and ansible_distribution_version <= '7'                                                                      
+
   - name: Reload Systemd service zabbix-agent2
     ansible.builtin.systemd:
        name: zabbix-agent2
