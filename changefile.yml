@@ -3,36 +3,58 @@
   hosts: all
  
   tasks:
+
+
+  - name: Check zabbix-agent file
+    stat:
+      path: /etc/zabbix/zabbix_agent.conf
+    register: agentv1
+
+  - name: Check zabbix-agent2 file
+    stat:
+      path: /etc/zabbix/zabbix_agent2.conf
+    register: agentv2
+
+  - name: "Change zabbix-agent Config"
+    lineinfile:
+       backup: yes
+       path: /etc/zabbix/zabbix_agent.conf
+       state: present
+       regexp: '^Server='
+       line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
+    when: agentv1.stat.exist
+    register: zbxconfigv1
  
-  - name: "Change Config"
+  - name: "Change zabbix-agent2 Config"
     lineinfile:
        backup: yes
        path: /etc/zabbix/zabbix_agent2.conf
        state: present
        regexp: '^Server='
        line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
-    register: zbxconfig
+    when: agentv2.stat.exist
+    register: zbxconfigv2
 
   - name: Reload Systemd service zabbix-agent
     ansible.builtin.systemd:
        name: zabbix-agent
        state: restarted
-    when: zbxconfig.changed and ansible_distribution_version >= '7'
+    when: zbxconfigv1.changed and ansible_distribution_version >= '7'
 
   - name: Reload SysV service zabbix-agent
     sysvinit:
        name: zabbix-agent
        state: restarted
-    when: zbxconfig.changed and ansible_distribution_version <= '7'                                                                      
+    when: zbxconfigv1.changed and ansible_distribution_version <= '7'                                                                      
 
   - name: Reload Systemd service zabbix-agent2
     ansible.builtin.systemd:
        name: zabbix-agent2
        state: restarted
-    when: zbxconfig.changed and ansible_distribution_version >= '7'
+    when: zbxconfigv2.changed and ansible_distribution_version >= '7'
 
   - name: Reload SysV service zabbix-agent2
     sysvinit:
        name: zabbix-agent2
        state: restarted
-    when: zbxconfig.changed and ansible_distribution_version <= '7'
+    when: zbxconfigv2.changed and ansible_distribution_version <= '7'
