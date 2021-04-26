@@ -10,7 +10,7 @@
        path: /etc/zabbix/zabbix_agent2.conf
        state: present
        regexp: '^Server='
-       line: 'Server=10.9.0.80,10.9.0.81,10.9.0.82'
+       line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
     register: zbxconfig
 
   - name: Reload Systemd service zabbix-agent2
