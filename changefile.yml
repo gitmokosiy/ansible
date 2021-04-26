@@ -14,15 +14,15 @@
       path: /etc/zabbix/zabbix_agent2.conf
     register: agentv2
 
-  - name: "Change zabbix-agent Config"
-    lineinfile:
-       backup: yes
-       path: /etc/zabbix/zabbix_agent.conf
-       state: present
-       regexp: '^Server='
-       line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
-    when: agentv1.stat.exist
-    register: zbxconfigv1
+#  - name: "Change zabbix-agent Config"
+#    lineinfile:
+#       backup: yes
+#       path: /etc/zabbix/zabbix_agent.conf
+#       state: present
+#       regexp: '^Server='
+#       line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
+#    when: agentv1.stat.exist
+#    register: zbxconfigv1
  
   - name: "Change zabbix-agent2 Config"
     lineinfile:
