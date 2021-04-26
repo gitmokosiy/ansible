@@ -11,9 +11,10 @@
        state: present
        regexp: '^Server='
        line: 'Server=10.9.0.80,10.9.0.81,10.9.0.82,172.18.0.0/16'
+    register: zbxconfig
 
   - name: Reload Systemd service zabbix-agent2
     ansible.builtin.systemd:
        name: zabbix-agent2
        state: restarted
-    when: ansible_distribution_version >= '7'
+    when: zbxconfig.changed and ansible_distribution_version >= '7'
