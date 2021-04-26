@@ -21,7 +21,7 @@
        state: present
        regexp: '^Server='
        line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
-    when: agentv1.stat.exist
+    when: agentv1.stat.exist == True
     register: zbxconfigv1
  
   - name: "Change zabbix-agent2 Config"
@@ -31,7 +31,7 @@
        state: present
        regexp: '^Server='
        line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
-    when: agentv2.stat.exist
+    when: agentv2.stat.exist == True
     register: zbxconfigv2
 
   - name: Reload Systemd service zabbix-agent
