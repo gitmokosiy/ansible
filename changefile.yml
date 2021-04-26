@@ -6,7 +6,7 @@
 
   - name: Check zabbix-agent file
     stat:
-      path: /etc/zabbix/zabbix_agent.conf
+      path: /etc/zabbix/zabbix_agentd.conf
     register: agentv1
 
   - name: Check zabbix-agent2 file
