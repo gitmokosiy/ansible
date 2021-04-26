@@ -4,7 +4,6 @@
  
   tasks:
 
-
   - name: Check zabbix-agent file
     stat:
       path: /etc/zabbix/zabbix_agent.conf
