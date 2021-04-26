@@ -7,7 +7,7 @@
   - name: Check zabbix-agent file
     stat:
       path: /etc/zabbix/zabbix_agent.conf
-    register: agentv1
+    register: agent
 
   - name: Check zabbix-agent2 file
     stat:
@@ -21,7 +21,7 @@
        state: present
        regexp: '^Server='
        line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
-    when: agentv1.stat.exist == True
+    when: agent.stat.exist == True
     register: zbxconfigv1
  
   - name: "Change zabbix-agent2 Config"
