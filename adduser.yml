@@ -10,8 +10,8 @@
   tasks:
     - name: Creating user with admin access
       user: 
-        name=adm_mmo
+        name={{user}}
         password={{password}}
-        groups=adm_mmo,wheel
+#        groups=adm_mmo,wheel
        
 
