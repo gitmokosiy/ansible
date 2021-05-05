@@ -1,0 +1,33 @@
+---
+- name: Deny SSH Root Login
+  hosts: all
+ 
+  tasks:
+
+  - name: Check sshd config file
+    stat:
+      path: /etc/ssh/sshd_config
+    register: checkfile
+
+  - name: "Change sshd config file"
+    lineinfile:
+       backup: yes
+       path: /etc/ssh/sshd_config
+       state: present
+       regexp: 'PermitRootLogin yes'
+       line: 'PermitRootLogin no'
+    when: checkfile
+    register: modify
+ 
+  - name: Reload Systemd ssh service
+    ansible.builtin.systemd:
+       name: sshd
+       state: restarted
+    when: modify.changed and ansible_distribution_version >= '7'
+
+  - name: Reload SysV ssh service
+    sysvinit:
+       name: sshd
+       state: restarted
+    when: modify.changed and ansible_distribution_version <= '7'                                                                      
+
