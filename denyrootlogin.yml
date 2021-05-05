@@ -16,18 +16,18 @@
        state: present
        regexp: 'PermitRootLogin yes'
        line: 'PermitRootLogin no'
-    when: checkfile
+    when: checkfile == true
     register: modify
  
   - name: Reload Systemd ssh service
     ansible.builtin.systemd:
        name: sshd
        state: restarted
-    when: modify.changed and ansible_distribution_version >= '7'
+    when: modify.changed == true and ansible_distribution_version >= '7'
 
   - name: Reload SysV ssh service
     sysvinit:
        name: sshd
        state: restarted
-    when: modify.changed and ansible_distribution_version <= '7'                                                                      
+    when: modify.changed == true and ansible_distribution_version <= '7'                                                                      
 
