@@ -29,16 +29,21 @@
 #    register: vmw_servise_running
 
   - name: Remove OpenVM Tools
+    become: yes
     yum: 
       name: open-vm-tools
       state: absent
-       
+    when: ovm_service.stat.exists == true
+     
   - name: Copy VMWare Tools Installation Files
     synchronize:
       src: ./vmware-tools-distrib/
       dest: /tmp/vmware-tools-distrib
-      use_ssh_args: yes
-      rsync_path: "sudo -u adm_mmo rsync"
+#      use_ssh_args: yes
+#      rsync_path: "sudo -u adm_mmo rsync"
+    when: vmw_service.stat.exists == false
      
   - name: Install VMWare Tools
+    become: yes
     command: perl /tmp/vmware-tools-distrib/vmware-install.pl -d default -f
+    when: vmw_service.stat.exists == false
