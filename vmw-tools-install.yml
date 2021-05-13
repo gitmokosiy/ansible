@@ -28,4 +28,4 @@
       src: ./vmware-tools-distrib/
       dest: /tmp/vmware-tools-distrib
       use_ssh_args: yes
-#      rsync_path: "sudo -u adm_mmo rsync"
+      rsync_path: "sudo -u adm_mmo rsync"
