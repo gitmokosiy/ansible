@@ -9,23 +9,36 @@
       path=/etc/init.d/vmware-tools
     register: vmw_service
 
-  - name: Check if VMWare Tools SystemD Service is Running
-    ansible.builtin.systemd:
-       name: vmware-tools
-       state: started
-    when: vmw_service.stat.exists == true and ansible_distribution_version >= '7'
-    register: vmw_servise_running    
+  - name: Check if OpenVM Tools Service Exists
+    stat:
+      path=/usr/lib/systemd/system/vmtoolsd.service
+    register: ovm_service
 
-  - name: Check if VMWare Tools SysV Service is Running
-    sysvinit:
-       name: vmware-tools
-       state: started
-    when: vmw_service.stat.exists == true and ansible_distribution_version <= '7'                                                                      
-    register: vmw_servise_running
+#  - name: Check if VMWare Tools SystemD Service is Running
+#    ansible.builtin.systemd:
+#       name: vmware-tools
+#       state: started
+#    when: vmw_service.stat.exists == true and ansible_distribution_version >= '7'
+#    register: vmw_servise_running    
 
+#  - name: Check if VMWare Tools SysV Service is Running
+#    sysvinit:
+#       name: vmware-tools
+#       state: started
+#    when: vmw_service.stat.exists == true and ansible_distribution_version <= '7'                                                                      
+#    register: vmw_servise_running
+
+  - name: Remove OpenVM Tools
+    yum: 
+      name: open-vm-tools
+      state: absend
+       
   - name: Copy VMWare Tools Installation Files
     synchronize:
       src: ./vmware-tools-distrib/
       dest: /tmp/vmware-tools-distrib
       use_ssh_args: yes
       rsync_path: "sudo -u adm_mmo rsync"
+     
+  - name: Install VMWare Tools
+    command: perl /tmp/vmware-tools-distrib/vmware-install.pl -d default 
