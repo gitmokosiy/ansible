@@ -24,6 +24,6 @@
     register: vmw_servise_running
 
   - name: Copy VMWare Tools Installation Files
-    copy:
+    synchronize:
       src: ./vmware-tools-distrib/
       dest: /tmp/vmware-tools-distrib
