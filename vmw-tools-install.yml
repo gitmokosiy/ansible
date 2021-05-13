@@ -4,56 +4,26 @@
  
   tasks:
 
-  - name: Check zabbix-agent file
+  - name: Check if VMWare Tools Service Exists
     stat:
-      path: /etc/zabbix/zabbix_agentd.conf
-    register: agentv1
+      path=/etc/init.d/vmware-tools
+    register: vmw_service
 
-  - name: Check zabbix-agent2 file
-    stat:
-      path: /etc/zabbix/zabbix_agent2.conf
-    register: agentv2
-
-  - name: "Change zabbix-agent Config"
-    lineinfile:
-       backup: yes
-       path: /etc/zabbix/zabbix_agentd.conf
-       state: present
-       regexp: '^Server='
-       line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
-    when: agentv1.stat.exists
-    register: zbxconfigv1
- 
-  - name: "Change zabbix-agent2 Config"
-    lineinfile:
-       backup: yes
-       path: /etc/zabbix/zabbix_agent2.conf
-       state: present
-       regexp: '^Server='
-       line: 'Server=185.46.89.10,10.9.0.80,10.9.0.81,10.9.0.82'
-    when: agentv2.stat.exists
-    register: zbxconfigv2
-
-  - name: Reload Systemd service zabbix-agent
+  - name: Check if VMWare Tools SystemD Service is Running
     ansible.builtin.systemd:
-       name: zabbix-agent
-       state: restarted
-    when: zbxconfigv1.changed and ansible_distribution_version >= '7'
+       name: vmware-tools
+       state: started
+    when: vmw_service.exists == true and ansible_distribution_version >= '7'
+    register: vmw_servise_running    
 
-  - name: Reload SysV service zabbix-agent
+  - name: Check if VMWare Tools SysV Service is Running
     sysvinit:
-       name: zabbix-agent
-       state: restarted
-    when: zbxconfigv1.changed and ansible_distribution_version <= '7'                                                                      
+       name: vmware-tools
+       state: started
+    when: vmw_service.exists == true and ansible_distribution_version <= '7'                                                                      
+    register: vmw_servise_running
 
-  - name: Reload Systemd service zabbix-agent2
-    ansible.builtin.systemd:
-       name: zabbix-agent2
-       state: restarted
-    when: zbxconfigv2.changed and ansible_distribution_version >= '7'
-
-  - name: Reload SysV service zabbix-agent2
-    sysvinit:
-       name: zabbix-agent2
-       state: restarted
-    when: zbxconfigv2.changed and ansible_distribution_version <= '7'
+  - name: Copy VMWare Tools Installation Files
+    copy:
+      src:/vmware-tools-distrib/
+      dest:/tmp/vmware-tools-distrib
