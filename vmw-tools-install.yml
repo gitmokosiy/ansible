@@ -25,5 +25,5 @@
 
   - name: Copy VMWare Tools Installation Files
     copy:
-      src:/vmware-tools-distrib/
-      dest:/tmp/vmware-tools-distrib
+      src: ./vmware-tools-distrib/
+      dest: /tmp/vmware-tools-distrib
