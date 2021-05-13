@@ -14,20 +14,6 @@
       path=/usr/lib/systemd/system/vmtoolsd.service
     register: ovm_service
 
-#  - name: Check if VMWare Tools SystemD Service is Running
-#    ansible.builtin.systemd:
-#       name: vmware-tools
-#       state: started
-#    when: vmw_service.stat.exists == true and ansible_distribution_version >= '7'
-#    register: vmw_servise_running    
-
-#  - name: Check if VMWare Tools SysV Service is Running
-#    sysvinit:
-#       name: vmware-tools
-#       state: started
-#    when: vmw_service.stat.exists == true and ansible_distribution_version <= '7'                                                                      
-#    register: vmw_servise_running
-
   - name: Remove OpenVM Tools
     become: yes
     yum: 
@@ -39,8 +25,6 @@
     synchronize:
       src: ./vmware-tools-distrib/
       dest: /tmp/vmware-tools-distrib
-#      use_ssh_args: yes
-#      rsync_path: "sudo -u adm_mmo rsync"
     when: vmw_service.stat.exists == false
      
   - name: Install VMWare Tools
