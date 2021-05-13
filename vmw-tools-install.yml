@@ -31,7 +31,7 @@
   - name: Remove OpenVM Tools
     yum: 
       name: open-vm-tools
-      state: absend
+      state: absent
        
   - name: Copy VMWare Tools Installation Files
     synchronize:
