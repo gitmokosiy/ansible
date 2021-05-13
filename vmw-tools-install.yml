@@ -41,4 +41,4 @@
       rsync_path: "sudo -u adm_mmo rsync"
      
   - name: Install VMWare Tools
-    command: perl /tmp/vmware-tools-distrib/vmware-install.pl -d default 
+    command: perl /tmp/vmware-tools-distrib/vmware-install.pl -d default -f
