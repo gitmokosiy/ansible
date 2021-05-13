@@ -13,14 +13,14 @@
     ansible.builtin.systemd:
        name: vmware-tools
        state: started
-    when: vmw_service.exists == true and ansible_distribution_version >= '7'
+    when: vmw_service.stat.exists == true and ansible_distribution_version >= '7'
     register: vmw_servise_running    
 
   - name: Check if VMWare Tools SysV Service is Running
     sysvinit:
        name: vmware-tools
        state: started
-    when: vmw_service.exists == true and ansible_distribution_version <= '7'                                                                      
+    when: vmw_service.stat.exists == true and ansible_distribution_version <= '7'                                                                      
     register: vmw_servise_running
 
   - name: Copy VMWare Tools Installation Files
