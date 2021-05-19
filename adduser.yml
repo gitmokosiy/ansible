@@ -19,4 +19,4 @@
         name={{user}}
         password={{password}}
         groups={{groups}}
-      when: groups in defined 
+      when: groups is defined 
