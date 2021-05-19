@@ -2,16 +2,10 @@
 - name: User Create
   hosts: all
 
-  vars:
-    # created with:
-    # python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'
-    password: $1$SomeSalt$SIMhbMGUV.4YdrZIVQm4s/
-
   tasks:
-    - name: Creating user with admin access
+    - name: Creating user 
       user: 
         name={{user}}
         password={{password}}
-#        groups=adm_mmo,wheel
-       
+        groups={{groups}} 
 

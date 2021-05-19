@@ -14,8 +14,8 @@
        backup: yes
        path: /etc/ssh/sshd_config
        state: present
-       regexp: 'PermitRootLogin yes'
-       line: 'PermitRootLogin no'
+       regexp: 'PermitRootLogin'
+       line: 'PermitRootLogin {{asnwer}}'
     when: checkfile == true
     register: modify
  
