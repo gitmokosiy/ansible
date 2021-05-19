@@ -1,5 +1,5 @@
 ---
-- name: Deny SSH Root Login
+- name: Deny/Allow SSH Root Login
   hosts: all
  
   tasks:
