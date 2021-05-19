@@ -11,5 +11,12 @@
       user: 
         name={{user}}
         password={{password}}
-        groups={{groups}} 
+      when: groups is not defined
 
+  tasks:
+    - name: Creating user with adding to specified Groups 
+      user: 
+        name={{user}}
+        password={{password}}
+        groups={{groups}}
+      when: groups in defined 
