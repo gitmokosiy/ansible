@@ -15,7 +15,7 @@
        path: /etc/ssh/sshd_config
        state: present
        regexp: 'PermitRootLogin'
-       line: 'PermitRootLogin {{asnwer}}'
+       line: 'PermitRootLogin {{answer}}'
     when: checkfile == true
     register: modify
  
