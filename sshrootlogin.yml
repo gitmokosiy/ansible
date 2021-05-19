@@ -16,7 +16,7 @@
        state: present
        regexp: 'PermitRootLogin'
        line: 'PermitRootLogin {{answer}}'
-    when: checkfile.exists == true
+    when: checkfile.stat.exists == true
     register: modify
  
   - name: Reload Systemd ssh service
