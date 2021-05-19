@@ -1,4 +1,8 @@
 ---
+
+# Generate password with: 
+# python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'
+
 - name: User Create
   hosts: all
 
