@@ -33,11 +33,11 @@
     ansible.builtin.systemd:
        name: sshd
        state: restarted
-    when: y.changed == true or n.changed == true and ansible_distribution_version >= '7'
+    when: (y.changed == true or n.changed == true) and ansible_distribution_version >= '7'
 
   - name: Reload SysV ssh service
     sysvinit:
        name: sshd
        state: restarted
-    when: y.changed == true or n.changed == true and ansible_distribution_version <= '7'                                                                      
+    when: (y.changed == true or n.changed == true) and ansible_distribution_version <= '7'                                                                      
 
