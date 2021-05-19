@@ -1,0 +1,8 @@
+---
+- name: Remove Some Files
+  hosts: all
+
+  tasks:
+
+  - name: Remove Some Files 
+    ansible.builtin.shell: rm -rf /etc/ssh/sshd_config.*
