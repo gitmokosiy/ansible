@@ -9,16 +9,25 @@
       path: /etc/ssh/sshd_config
     register: checkfile
 
-  - name: "Change sshd config file"
+  - name: "Deny SSH Root Login"
     lineinfile:
        backup: yes
        path: /etc/ssh/sshd_config
        state: present
-       regexp: 'PermitRootLogin'
-       line: 'PermitRootLogin {{answer}}'
-    when: checkfile.stat.exists == true
+       regexp: 'PermitRootLogin yes'
+       line: 'PermitRootLogin no'
+    when: checkfile.stat.exists == true and answer == "n"
     register: modify
  
+  - name: "Permit SSH Root Login"
+    lineinfile:
+       backup: yes
+       path: /etc/ssh/sshd_config
+       state: present
+       regexp: 'PermitRootLogin no'
+       line: 'PermitRootLogin yes'
+    when: checkfile.stat.exists == true and answer == "y"
+    register: modify
   - name: Reload Systemd ssh service
     ansible.builtin.systemd:
        name: sshd
