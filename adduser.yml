@@ -11,7 +11,7 @@
       user: 
         name={{user}}
         password={{password}}
-      when: groups is not defined
+      when: groups is undefined
 
   tasks:
     - name: Creating user with adding to specified Groups 
