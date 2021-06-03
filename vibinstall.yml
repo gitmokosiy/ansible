@@ -20,6 +20,7 @@
 
   - name: If not installed, install it
     shell: esxcli software vib install -v /tmp/BCM_bootbank_vmware-perccli64_007.1420.0000.0000-01.vib --no-sig-check
+    when: "'vmware-perccli64' not in vibs.stdout"
 
   - name: Confirm VIB is installed
     shell: esxcli software vib get -n "vmware-perccli64"
