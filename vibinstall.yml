@@ -1,0 +1,31 @@
+---
+- hosts: all
+
+  tasks:
+
+#  - name: Get list of installed VIBs
+#    shell: esxcli software vib get -n "esx-ui"
+#    register: vibs
+#    changed_when: false
+#    ignore_errors: yes
+
+#  - debug: var=vibs.stdout
+
+  - name: Copy esxui-signed.vib to ESXi Host
+    copy: src=perccli/BCM_bootbank_vmware-perccli64_007.1420.0000.0000-01.vib dest=/tmp/
+
+#  - name: Run an upgrade if VIB is already installed
+#    shell: esxcli software vib update -v /tmp/BCM_bootbank_vmware-perccli64_007.1420.0000.0000-01.vib
+#    when: "'VMware_bootbank_esx-ui' in vibs.stdout"
+
+  - name: If not installed, install it
+    shell: esxcli software vib install -v /tmp/BCM_bootbank_vmware-perccli64_007.1420.0000.0000-01.vib --no-sig-check
+
+#  - name: Confirm VIB is installed
+#    shell: esxcli software vib get -n "esx-ui"
+#    register: vibs
+#    changed_when: false
+#    ignore_errors: yes
+
+#  - debug: var=vibs.stdout
+
