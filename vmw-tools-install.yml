@@ -1,10 +1,10 @@
 ---
-- name: Zabbix Agent Config Changing
+- name: Installing VMWare Tools
   hosts: all
  
   tasks:
  
-  - name: install the latest version of Apache from the testing repo
+  - name: Perl installation
     yum:
        name: perl
        state: present
