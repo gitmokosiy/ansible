@@ -21,9 +21,9 @@
         groups={{groupz}}
 #      when: action == "add" and groupz is defined 
 
-  tasks:
-    - name: Removing user 
-      user: 
-        name={{user}}
-        state=absent
-      when: action == "rem"
+#  tasks:
+#    - name: Removing user 
+#      user: 
+#        name={{user}}
+#        state=absent
+#      when: action == "rem"
