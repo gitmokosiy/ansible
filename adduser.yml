@@ -6,12 +6,12 @@
 - name: User Create
   hosts: all
 
-#  tasks:
-#    - name: Creating user 
-#      user: 
-#        name={{user}}
-#        password={{password}}
-#      when: action == "add" and groupz is undefined
+  tasks:
+    - name: Creating user 
+      user: 
+        name={{user}}
+        password={{password}}
+      when: act == "add" and groupz is undefined
 
   tasks:
     - name: Creating user with adding to specified Groups 
@@ -19,11 +19,11 @@
         name={{user}}
         password={{password}}
         groups={{groupz}}
-#      when: action == "add" and groupz is defined 
+      when: act == "add" and groupz is defined 
 
-#  tasks:
-#    - name: Removing user 
-#      user: 
-#        name={{user}}
-#        state=absent
-#      when: action == "rem"
+  tasks:
+    - name: Removing user 
+      user: 
+        name={{user}}
+        state=absent
+      when: action == "rem"
