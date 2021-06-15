@@ -3,6 +3,12 @@
   hosts: all
  
   tasks:
+ 
+  - name: Install a Perl
+     yum:
+       name:
+         - perl
+       state: present
 
   - name: Check if VMWare Tools Service Exists
     stat:
