@@ -4,10 +4,9 @@
  
   tasks:
  
-  - name: Install a Perl
+  - name: install the latest version of Apache from the testing repo
     yum:
-      name:
-         - perl
+       name: perl
        state: present
 
   - name: Check if VMWare Tools Service Exists
