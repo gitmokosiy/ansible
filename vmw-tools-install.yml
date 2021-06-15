@@ -5,6 +5,7 @@
   tasks:
  
   - name: Perl installation
+    become: yes
     yum:
        name: perl
        state: present
