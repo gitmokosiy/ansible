@@ -13,7 +13,6 @@
         password={{password}}
       when: act == "add" and groupz is undefined
 
-  tasks:
     - name: Creating user with adding to specified Groups 
       user: 
         name={{user}}
@@ -21,9 +20,8 @@
         groups={{groupz}}
       when: act == "add" and groupz is defined 
 
-  tasks:
     - name: Removing user 
       user: 
         name={{user}}
         state=absent
-      when: action == "rem"
+      when: act == "rem"
