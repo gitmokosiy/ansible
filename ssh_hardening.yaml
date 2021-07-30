@@ -41,11 +41,11 @@
     ansible.builtin.systemd:
        name: sshd
        state: restarted
-    when: (ciphers_mod.changed == true or kex_mod.changed == true or macs_mod.changed == true or ciphers_ins.changed == true or kex_ins.changed == true or macs_ins.changed == true) and ansible_distribution_version >= '7'
+    when: (ciphers_mod.changed == true or kex_mod.changed == true or macs_mod.changed == true) and ansible_distribution_version >= '7'
 
   - name: Reload SysV ssh service
     sysvinit:
        name: sshd
        state: restarted
-    when: (ciphers_mod.changed == true or kex_mod.changed == true or macs_mod.changed == true or ciphers_ins.changed == true or kex_ins.changed == true or macs_ins.changed == true) and ansible_distribution_version <= '7'    
+    when: (ciphers_mod.changed == true or kex_mod.changed == true or macs_mod.changed == true) and ansible_distribution_version <= '7'    
  
