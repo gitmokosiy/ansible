@@ -4,7 +4,7 @@
  
   tasks:
 
-  - name: "Replace\Add Ciphers"
+  - name: "Replace or Add Ciphers"
     lineinfile:
        backup: yes
        path: /etc/ssh/sshd_config
@@ -15,7 +15,7 @@
     when: chk_ciphers.stdout != 0 
     register: ciphers_mod
 
-  - name: "Replace\Add KexAlgorithms"
+  - name: "Replace or Add KexAlgorithms"
     lineinfile:
        backup: yes
        path: /etc/ssh/sshd_config
@@ -26,7 +26,7 @@
     when: chk_kex.stdout != 0 
     register: kex_mod
 
-  - name: "Replace\Add MACs"
+  - name: "Replace or Add MACs"
     lineinfile:
        backup: yes
        path: /etc/ssh/sshd_config
