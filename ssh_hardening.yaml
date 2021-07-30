@@ -1,0 +1,93 @@
+---
+- name: SSH hardening
+  hosts: all
+ 
+  tasks:
+
+  - name: "Check Ciphers"
+    shell: grep -c "^Ciphers" /etc/ssh/sshd_config || true
+    register: chk_ciphers
+
+  - name: "Check KexAlg"
+    shell: grep -c "^KexAlgorithms" /etc/ssh/sshd_config || true
+    register: chk_kex
+
+  - name: "Check MACs"
+    shell: grep -c "^MACs" /etc/ssh/sshd_config || true
+    register: chk_macs
+
+  - name: "Replace Ciphers"
+    lineinfile:
+       backup: yes
+       path: /etc/ssh/sshd_config
+       state: present
+       regexp: '^Ciphers'
+       line: 'Ciphers aes128-ctr,aes192-ctr,aes256-ctr'
+       validate: '/usr/sbin/sshd -t -f %s'
+    when: chk_ciphers.stdout != 0 
+    register: ciphers_mod
+
+  - name: "Replace KexAlgorithms"
+    lineinfile:
+       backup: yes
+       path: /etc/ssh/sshd_config
+       state: present
+       regexp: '^KexAlgorithms'
+       line: 'KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256'
+       validate: '/usr/sbin/sshd -t -f %s'
+    when: chk_kex.stdout != 0 
+    register: kex_mod
+
+  - name: "Replace MACs"
+    lineinfile:
+       backup: yes
+       path: /etc/ssh/sshd_config
+       state: present
+       regexp: '^MACs'
+       line: 'MACs hmac-sha2-256,hmac-sha2-512'
+       validate: '/usr/sbin/sshd -t -f %s'
+    when: chk_macs.stdout != 0 
+    register: macs_mod
+
+  - name: "Insert Ciphers"
+    lineinfile:
+       backup: yes
+       path: /etc/ssh/sshd_config
+       state: present
+       line: 'Ciphers aes128-ctr,aes192-ctr,aes256-ctr'
+       validate: '/usr/sbin/sshd -t -f %s'
+    when: chk_ciphers.stdout == 0 
+    register: ciphers_ins
+
+  - name: "Insert KexAlgorithms"
+    lineinfile:
+       backup: yes
+       path: /etc/ssh/sshd_config
+       state: present
+       line: 'KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256'
+       validate: '/usr/sbin/sshd -t -f %s'
+    when: chk_kex.stdout == 0 
+    register: kex_ins
+
+  - name: "Insert MACs"
+    lineinfile:
+       backup: yes
+       path: /etc/ssh/sshd_config
+       state: present
+       line: 'MACs hmac-sha2-256,hmac-sha2-512'
+       validate: '/usr/sbin/sshd -t -f %s'
+    when: chk_macs.stdout == 0 
+    register: macs_ins
+
+  - name: Reload Systemd ssh service
+    ansible.builtin.systemd:
+       name: sshd
+       state: restarted
+    when: (ciphers_mod.changed == true or kex_mod.changed == true or macs_mod.changed == true or ciphers_ins.changed == true or kex_ins.changed == true or macs_ins.changed == true) and ansible_distribution_version >= '7'
+
+  - name: Reload SysV ssh service
+    sysvinit:
+       name: sshd
+       state: restarted
+    when: (ciphers_mod.changed == true or kex_mod.changed == true or macs_mod.changed == true or ciphers_ins.changed == true or kex_ins.changed == true or macs_ins.changed == true) and ansible_distribution_version <= '7'    
+ 
