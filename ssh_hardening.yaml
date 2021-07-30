@@ -47,5 +47,5 @@
     sysvinit:
        name: sshd
        state: restarted
-    when: (ciphers_mod.changed == true or kex_mod.changed == true or macs_mod.changed == true) and ansible_distribution_version <= '7'    
+    when: (ciphers_mod.changed == true or kex_mod.changed == true or macs_mod.changed == true) and ansible_distribution_version < '7'    
  
