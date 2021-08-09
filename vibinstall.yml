@@ -3,24 +3,24 @@
 
   tasks:
 
-  - name: Get list of installed VIBs
+  - name: Get if PERCCLI is installed
     shell: esxcli software vib get -n "vmware-perccli64"
-    register: vibs
+    register: vib
     changed_when: false
     ignore_errors: yes
 
-  - debug: var=vibs.stdout
+  - debug: var=vib.stdout
 
   - name: Copy esxui-signed.vib to ESXi Host
     copy: src=perccli/BCM_bootbank_vmware-perccli64_007.1420.0000.0000-01.vib dest=/tmp/
 
   - name: Run an upgrade if VIB is already installed
     shell: esxcli software vib update -v /tmp/BCM_bootbank_vmware-perccli64_007.1420.0000.0000-01.vib --no-sig-check
-    when: "'vmware-perccli64' in vibs.stdout"
+    when: "'NoMatchError' not in vib.stdout"
 
   - name: If not installed, install it
     shell: esxcli software vib install -v /tmp/BCM_bootbank_vmware-perccli64_007.1420.0000.0000-01.vib --no-sig-check
-    when: "'vmware-perccli64' not in vibs.stdout"
+    when: "'NoMatchError' in vib.stdout"
 
   - name: Confirm VIB is installed
     shell: esxcli software vib get -n "vmware-perccli64"
