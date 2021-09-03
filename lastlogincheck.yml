@@ -1,1 +1,8 @@
+---
+- name: List Last Logons
+  hosts: all
 
+  tasks:
+
+  - name: List last logons
+    ansible.builtin.shell: last -a
