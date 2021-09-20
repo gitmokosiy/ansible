@@ -9,13 +9,13 @@
      yum:
        name: https://repo.zabbix.com/zabbix/5.4/rhel/7/x86_64/zabbix-release-5.4-1.el7.noarch.rpm
        state: present
-     when: ansible_distribution_version = '7'
+     when: ansible_distribution_version == '7'
        
    - name: Install Zabbix repository from a remote repo on RHEL v8
      yum:
        name: https://repo.zabbix.com/zabbix/5.4/rhel/8/x86_64/zabbix-release-5.4-1.el8.noarch.rpm
        state: present
-     when: ansible_distribution_version = '8'
+     when: ansible_distribution_version == '8'
 
    - name: Install zabbix-agent2
      yum:
