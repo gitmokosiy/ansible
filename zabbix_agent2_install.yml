@@ -5,16 +5,39 @@
 
   tasks:
   
-   - name: Install Zabbix repository from a remote repo
+   - name: Install Zabbix repository from a remote repo on RHEL v7
      yum:
        name: https://repo.zabbix.com/zabbix/5.4/rhel/7/x86_64/zabbix-release-5.4-1.el7.noarch.rpm
        state: present
+       when: ansible_distribution_version = '7'
+       
+   - name: Install Zabbix repository from a remote repo on RHEL v8
+     yum:
+       name: https://repo.zabbix.com/zabbix/5.4/rhel/8/x86_64/zabbix-release-5.4-1.el8.noarch.rpm
+       state: present
+       when: ansible_distribution_version = '8'
 
    - name: Install zabbix-agent2
      yum:
        name: zabbix-agent2
        state: present
-     
+       
+  - name: Configure Server parameter in zabbix agent config 
+    lineinfile:
+       backup: yes
+       path: /etc/zabbix/zabbix_agent2.conf
+       state: present
+       regexp: '^Server='
+       line: 'Server=10.9.0.80,10.9.0.81,10.9.0.82'
+
+  - name: Configure Hostname parameter in zabbix agent config 
+    lineinfile:
+       backup: yes
+       path: /etc/zabbix/zabbix_agent2.conf
+       state: present
+       regexp: '^Hostname='
+       line: 'Hostname={{inventory_hostname}}'
+        
    - name: Enable zabbix-agent2 service
      ansible.builtin.systemd:
        name: zabbix-agent2
