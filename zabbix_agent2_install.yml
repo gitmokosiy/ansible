@@ -35,7 +35,7 @@
        path: /etc/zabbix/zabbix_agent2.conf
        state: present
        regexp: '^Hostname='
-       line: 'Hostname={{inventory_hostname}}'
+       line: 'Hostname={{ansible_hostname}}'
         
    - name: Enable zabbix-agent2 service
      ansible.builtin.systemd:
