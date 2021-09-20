@@ -22,16 +22,16 @@
        name: zabbix-agent2
        state: present
        
-  - name: Configure Server parameter in zabbix agent config 
-    lineinfile:
+   - name: Configure Server parameter in zabbix agent config 
+     lineinfile:
        backup: yes
        path: /etc/zabbix/zabbix_agent2.conf
        state: present
        regexp: '^Server='
        line: 'Server=10.9.0.80,10.9.0.81,10.9.0.82'
 
-  - name: Configure Hostname parameter in zabbix agent config 
-    lineinfile:
+   - name: Configure Hostname parameter in zabbix agent config 
+     lineinfile:
        backup: yes
        path: /etc/zabbix/zabbix_agent2.conf
        state: present
